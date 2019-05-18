@@ -5,8 +5,6 @@ location = "Test2\\"
 
 write_files = ["test2 128 1000 Write", "test2 128 2000 Write", "test2 256 1000 Write", "test2 256 2000 Write"]
 read_files = ["test2 128 1000 Read", "test2 128 2000 Read", "test2 256 1000 Read", "test2 256 2000 Read"]
-cnt1=0
-cnt2=0
 with pd.ExcelWriter(location + "Points.xlsx") as writer:
     for rfile in write_files:
         x = []
@@ -18,12 +16,10 @@ with pd.ExcelWriter(location + "Points.xlsx") as writer:
                     b_order = line[6:].strip().split(' ')
                     b_order = ''.join(['0x'] + b_order[::-1])
                     x.append(int(b_order, 0))
-                    cnt1 += 1
                 if line[:5].strip() == '82 fa':
                     b_order = line[6:].strip().split(' ')
                     b_order = ''.join(['0x'] + b_order[::-1])
                     y.append(int(b_order, 0))
-                    cnt2 += 1
         y.pop()  # Last point is send twice for finish designation
         x.pop()
         points = np.column_stack((x, y))
